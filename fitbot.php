@@ -28,7 +28,11 @@
             }
         }
     </style>
-  
+    <script>
+        
+    window.print();
+  window.onafterprint = window.close;  
+</script>
 </head>
 <body>
     <div class="container mt-5 mb-5">
@@ -143,11 +147,11 @@ define('OPENAI_API_KEY', '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');
         
         ?>
     </div>
-    <button type="submit" name="register" class="btn btn-sm btn-primary mt-2" onclick="window.location.href='studentlist.php?grade=7&&section=A'"><i class="fa-solid fa-arrow-left" ></i> Back to Student List</button>
+    <!-- <button type="submit" name="register" class="btn btn-sm btn-primary mt-2" onclick="window.location.href='studentlist.php?grade=7&&section=A'"><i class="fa-solid fa-arrow-left" ></i> Back to Student List</button> -->
 
-    <div style="text-align: center;">
+   <!--  <div style="text-align: center;">
         <button type="submit" name="register" class="btn btn-sm btn-primary mt-2" class="no-print" onclick="window.print();"><i class="fa-solid fa-print" ></i> Print</button>
-    </div>
+    </div> -->
 
     <!-- Bootstrap JS and Popper.js via CDN -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

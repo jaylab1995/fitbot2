@@ -235,12 +235,29 @@ $generateList = mysqli_query($conn, "SELECT * FROM teachers ORDER BY teacher_id 
 
 
                       <form method="POST" action="process_update.php">
+                        <?php 
+                            if ($row['teacher_status'] == 1) {
+                              
+                        
+                        ?>
                         <input type="hidden" name="teacher_name" value="<?=$row['teacher_name'] ?>">
                         <input type="hidden" name="inactive_id" value="<?=$row['teacher_id'] ?>">
-                        <button type="submit" name="inactive_teacher" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Mark as Inactive" onclick="javascript:return confirm('Are you sure you want to mark this user as inactive? Only the Administrator can reverse this action.')"><i class="fa-solid fa-user-minus"></i></button>
+                        <button type="submit" name="inactive_teacher" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Mark as Inactive" onclick="javascript:return confirm('Are you sure you want to mark this user as inactive? ')"><i class="fa-solid fa-user-minus"></i></button>
+                      </form>
+                      <?php 
+                           }
+                           else
+                           {
+
+
+
+                      ?>
+                      <input type="hidden" name="teacher_name" value="<?=$row['teacher_name'] ?>">
+                        <input type="hidden" name="active_id" value="<?=$row['teacher_id'] ?>">
+                        <button type="submit" name="active_teacher" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Mark as Active" onclick="javascript:return confirm('Are you sure you want to mark this user as active?')"><i class="fa-solid fa-user-plus"></i></button>
                       </form>
                       <?php
-
+                    }
                     }
                     ?>
                   </div>

@@ -156,4 +156,40 @@ if (isset($_POST['inactive_teacher']))
 
     }
 }
+
+if (isset($_POST['active_teacher'])) 
+{
+
+    $id1 = sanitizeInput($_POST['active_id']);
+    $active_name = sanitizeInput($_POST['teacher_name']);
+
+    $teacher_t = "UPDATE `teachers` SET `teacher_status`='1' WHERE `teacher_id` = '$id1'";
+
+
+    $process_activation = mysqli_query($conn, $teacher_t);
+
+    if($process_activation === TRUE) 
+    {
+        ?>
+        <script>
+            alert("Notice: Success! Teacher: <?=$inactive_name;?>, mark as active!");
+            window.location.href ='admin_teacherlist.php';
+        </script>
+        <?php
+
+    } 
+    else 
+    {
+
+        ?>
+        <script>
+            alert("Error:<?=mysqli_error($conn);?> Student: <?=$inactive_name;?>, mark as active unsuccessful!");
+            window.location.href ='admin_teacherlist.php';
+        </script>
+        <?php
+
+
+    }
+}
+
 ?>

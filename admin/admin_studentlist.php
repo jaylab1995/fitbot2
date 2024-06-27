@@ -188,7 +188,7 @@ $generateList = mysqli_query($conn, "SELECT * FROM students WHERE student_grade=
                             $age = floor((time() - strtotime($row['student_bdate'])) / 31556926);
                             ?>
                             <div class="btn-group" role="group" aria-label="Basic example">
-                              <form action="fitbot.php" method="POST" >
+                              <form action="../fitbot.php" method="POST" target="_blank">
                                 <input type="hidden" name="student_id" value="<?= $row['student_id'] ?>">
                                 <textarea name="studentDetails" id="" cols="30" rows="10" hidden><?php echo "I am " . $row['student_name'] . ", born on ". $row['student_bdate'] . ", ". $age . " year's old, height " . $row['student_height'] . ", weight " . $row['student_weight'] . ". I have medical history of " . $row['student_medicalhistory'] . ". My allergies are " . $row['student_allergy']. ". My medications are " . $row['student_medication']; ?> </textarea>
                                 <button type="submit" name="generate" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Create 1Month Plan with FitBOT"><i class="fa-solid fa-gears"></i></button>
@@ -319,7 +319,7 @@ $generateList = mysqli_query($conn, "SELECT * FROM students WHERE student_grade=
                           $age = floor((time() - strtotime($row['student_bdate'])) / 31556926);
                           ?>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <form action="fitbot.php" method="POST" >
+                            <form action="../fitbot.php" method="POST" target="_blank">
                               <input type="hidden" name="student_id" value="<?= $row['student_id'] ?>">
                               <textarea name="studentDetails" id="" cols="30" rows="10" hidden><?php echo "I am " . $row['student_name'] . ", born on ". $row['student_bdate'] . ", ". $age . " year's old, height " . $row['student_height'] . ", weight " . $row['student_weight'] . ". I have medical history of " . $row['student_medicalhistory'] . ". My allergies are " . $row['student_allergy']. ". My medications are " . $row['student_medication']; ?> </textarea>
                               <button type="submit" name="recreate" onclick="javascript:return confirm('Are you sure you want to regenerate current plan?')" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Change Current 1Month Plan with FitBOT"><i class="fa-solid fa-dice-five"> </i></button>
@@ -327,7 +327,7 @@ $generateList = mysqli_query($conn, "SELECT * FROM students WHERE student_grade=
                             </form>
                           </div>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" onclick="window.location.href = 'viewplan.php?id=<?= $row['student_id'];?>'" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="View Plan"><i class="fa-solid fa-eye"></i></button>
+                            <button type="button" data-toggle="modal" data-target="#planModal<?=$row['student_id'];?>" id="#planModal<?=$row['student_id'];?>"  class="btn btn-secondary"  title="View Plan"><i class="fa-solid fa-eye"></i></button>
                             <button type="button" data-toggle="modal" data-target="#editModal<?=$row['student_id'];?>" id="#editModal<?=$row['student_id'];?>" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Edit Student Data"><i class="fa-solid fa-pen"></i></button>
 
                             <!-- Modal Edit Student-->
@@ -446,11 +446,50 @@ $generateList = mysqli_query($conn, "SELECT * FROM students WHERE student_grade=
 
                             <?php
                           }
+
                         }
                       }
 
                       ?>
+                      <!-- Modal Plan Student-->
+                      <div class="modal fade" id="planModal<?php echo $row['student_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                             <div class="container mb-5">
 
+
+                              <h2 class="card-title">Student Meal Plan</h2>
+                              <div class="card-body">
+                              <?php
+                               $id = $row['student_id'];
+                              $getPlanDetails = mysqli_query($conn, "SELECT * FROM students WHERE student_id ='$id' ");
+                              if ($getPlanDetails) {
+                                while ($row2 = mysqli_fetch_assoc($getPlanDetails)) 
+                                {
+                                  $assistantResponse = $row2['student_plan'];
+
+                                          // Format text with ### as headings
+                                  $assistantResponse = preg_replace('/###\s*(.*?)\n/s', '<h2>$1</h2>', $assistantResponse);
+
+                                  // Format text with ** as bold
+                                  $assistantResponse = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $assistantResponse);
+
+                                  // Preserve line breaks and display as formatted text
+                                  echo $formattedText = nl2br(html_entity_decode($assistantResponse));
+                                }
+                              }
+                              ?>
+
+                            </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Modal Edit Student -->
                     </div>
                   </td>
                 </tr>
